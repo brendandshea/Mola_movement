@@ -11,7 +11,7 @@ library(marmap)
 library(rnaturalearth)
 
 ## read in data and wrangle ----
-df <- read.csv("mola_all.csv") %>%
+df <- read.csv("https://raw.githubusercontent.com/brendandshea/Mola_movement/main/data/SPOT/mola_all.csv") %>%
   mutate( 
     date = mdy_hms(date, tz = "UTC"),
     id = as.character(id),
@@ -123,10 +123,6 @@ dist_m <- st_distance(pts_proj, land_proj)
 
 dailyMM32$dist_to_coast_km <- apply(dist_m, 1, min) / 1000 #merge back to data
 
-#save dataframe for modeling
-write_csv(dailyMM32, "MP_track_MM32.csv")
-
-
 # MM31 ####
 MM31 <- filtered %>%
   filter(
@@ -195,10 +191,6 @@ land_proj <- st_transform(land, 6933)
 dist_m <- st_distance(pts_proj, land_proj)
 
 dailyMM31$dist_to_coast_km <- apply(dist_m, 1, min) / 1000 #merge back to data
-
-#save dataframe for modeling
-write_csv(dailyMM31, "MP_track_MM31.csv")
-
 
 #MM29 ####
 #isolate one fish and remove 24 hrs after tagging
@@ -280,5 +272,4 @@ dist_m <- st_distance(pts_proj, land_proj)
 
 dailyMM29$dist_to_coast_km <- apply(dist_m, 1, min) / 1000
 
-#save dataframe for modeling
-write_csv(dailyMM29, "MP_track_MM29.csv")
+#Resulting daily position dataframes saved to CSV for modeling
